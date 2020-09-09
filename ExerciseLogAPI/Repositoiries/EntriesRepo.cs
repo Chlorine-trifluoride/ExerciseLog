@@ -10,7 +10,7 @@ namespace ExerciseLogAPI.Repositoiries
     {
         private readonly ILogger<EntriesRepo> _logger;
         private List<Entry> entries;
-        private int nextID => entries.Count;
+        private int NextID => entries.Count;
 
         public EntriesRepo(ILogger<EntriesRepo> logger)
         {
@@ -34,7 +34,7 @@ namespace ExerciseLogAPI.Repositoiries
 
         public void AddEntry(Entry entry)
         {
-            entry.ID = nextID;
+            entry.ID = NextID;
             entries.Add(entry);
         }
 
