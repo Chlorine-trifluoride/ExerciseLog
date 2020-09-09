@@ -30,11 +30,7 @@ namespace ExerciseLogAPI
             services.AddControllers().
                 AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-            services.AddSingleton<EntriesRepo>((container) =>
-            {
-                var logger = container.GetRequiredService<ILogger<EntriesRepo>>();
-                return new EntriesRepo(logger);
-            });
+            services.AddSingleton<EntriesRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

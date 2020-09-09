@@ -15,22 +15,24 @@ namespace ExerciseLogAPI.Controllers
     public class EntriesController : ControllerBase
     {
         private readonly ILogger<EntriesController> _logger;
+        private readonly EntriesRepo _entriesRepo;
 
-        public EntriesController(ILogger<EntriesController> logger)
+        public EntriesController(ILogger<EntriesController> logger, EntriesRepo entriesRepo)
         {
             _logger = logger;
+            _entriesRepo = entriesRepo;
         }
 
         [HttpGet]
         public List<Entry> Get()
         {
-            return EntriesRepo.Inst.GetEntries();
+            return _entriesRepo.GetEntries();
         }
 
         [HttpGet("{id:int}")]
         public Entry GetEntryByID(int id)
         {
-            return EntriesRepo.Inst.GetEntry(id);
+            return _entriesRepo.GetEntry(id);
         }
 
         [HttpGet("{exerciseType}")]
@@ -39,7 +41,7 @@ namespace ExerciseLogAPI.Controllers
             try
             {
                 Exercise exercise = (Exercise)Enum.Parse(typeof(Exercise), exerciseType, true);
-                return Ok(EntriesRepo.Inst.GetEntriesByExercise(exercise));
+                return Ok(_entriesRepo.GetEntriesByExercise(exercise));
             }
 
             catch (Exception e)
@@ -60,7 +62,7 @@ namespace ExerciseLogAPI.Controllers
 
             else
             {
-                EntriesRepo.Inst.AddEntry(entry);
+                _entriesRepo.AddEntry(entry);
                 return HttpStatusCode.OK;
             }
         }

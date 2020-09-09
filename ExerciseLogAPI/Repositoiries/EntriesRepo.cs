@@ -8,14 +8,12 @@ namespace ExerciseLogAPI.Repositoiries
 {
     public class EntriesRepo
     {
-        public static EntriesRepo Inst { get; private set; }
         private readonly ILogger<EntriesRepo> _logger;
         private List<Entry> entries;
         private int nextID => entries.Count;
 
         public EntriesRepo(ILogger<EntriesRepo> logger)
         {
-            Inst = this;
             _logger = logger;
             entries = new List<Entry>();
             AddDummyEntries();
@@ -61,7 +59,7 @@ namespace ExerciseLogAPI.Repositoiries
 
             catch (Exception e)
             {
-                _logger.LogError("Invalid ID requested in EntriesRepo.GetEntry(int id)", id, e.Message);
+                _logger.LogError("Invalid ID requested in EntriesRepo.GetEntry(int id)", id, e);
             }
 
             return null;
