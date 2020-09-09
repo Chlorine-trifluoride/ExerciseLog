@@ -33,6 +33,22 @@ namespace ExerciseLogAPI.Controllers
             return EntriesRepo.Inst.GetEntry(id);
         }
 
+        [HttpGet("{exerciseType}")]
+        public IActionResult GetEntriesOfType(string exerciseType)
+        {
+            try
+            {
+                Exercise exercise = (Exercise)Enum.Parse(typeof(Exercise), exerciseType, true);
+                return Ok(EntriesRepo.Inst.GetEntriesByExercise(exercise));
+            }
+
+            catch (Exception e)
+            {
+                _logger.LogWarning("Invalid Exercise requested", exerciseType, e.Message);
+                return BadRequest();
+            }
+        }
+
         [HttpPost()]
         public HttpStatusCode Post([FromBody] Entry entry)
         {
