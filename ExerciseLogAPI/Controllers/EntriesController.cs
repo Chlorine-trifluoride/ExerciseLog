@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ExerciseLogAPI.Models;
 using ExerciseLogAPI.Repositoiries;
@@ -24,6 +25,28 @@ namespace ExerciseLogAPI.Controllers
         public List<Entry> Get()
         {
             return EntriesRepo.Inst.GetEntries();
+        }
+
+        [HttpGet("{id:int}")]
+        public Entry GetEntryByID(int id)
+        {
+            return EntriesRepo.Inst.GetEntry(id);
+        }
+
+        [HttpPost()]
+        public HttpStatusCode Post([FromBody] Entry entry)
+        {
+            if (entry.ExerciseType == Exercise.Golf)
+            {
+                // Golf is not real exercise
+                return HttpStatusCode.NotAcceptable;
+            }
+
+            else
+            {
+                EntriesRepo.Inst.AddEntry(entry);
+                return HttpStatusCode.OK;
+            }
         }
     }
 }
