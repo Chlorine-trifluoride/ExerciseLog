@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExerciseLogAPI.Models;
+using Microsoft.Extensions.Logging;
 
 namespace ExerciseLogAPI.Repositoiries
 {
     public class EntriesRepo
     {
-        public static EntriesRepo Inst { get; } = new EntriesRepo();
-
+        public static EntriesRepo Inst { get; private set; }
+        private readonly ILogger<EntriesRepo> _logger;
         private List<Entry> entries;
         private int nextID => entries.Count;
 
-        private EntriesRepo()
+        public EntriesRepo(ILogger<EntriesRepo> logger)
         {
+            Inst = this;
+            _logger = logger;
             entries = new List<Entry>();
             AddDummyEntries();
         }
@@ -23,6 +26,7 @@ namespace ExerciseLogAPI.Repositoiries
             AddEntry(Exercise.Walking, 60 * 60 * 1000);
             AddEntry(Exercise.Running, 10 * 60 * 1000);
             AddEntry(Exercise.Tennis, 55 * 60 * 1000);
+            AddEntry(Exercise.Tennis, 55 * 2 * 60 * 1000);
         }
 
         public List<Entry> GetEntries()
@@ -57,8 +61,7 @@ namespace ExerciseLogAPI.Repositoiries
 
             catch (Exception e)
             {
-                // TODO: logging?
-                Console.WriteLine("Invalid ID requested in EntriesRepo.GetEntry(int id)");
+                _logger.LogError("Invalid ID requested in EntriesRepo.GetEntry(int id)", id, e.Message);
             }
 
             return null;
