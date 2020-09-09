@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using ExerciseLogAPI.Repositoiries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,8 @@ namespace ExerciseLogAPI
         {
             services.AddControllers().
                 AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+            services.AddSingleton<EntriesRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
