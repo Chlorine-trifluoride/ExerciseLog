@@ -36,7 +36,7 @@ namespace ExerciseLogAPI.Controllers
         }
 
         [HttpGet("{exerciseType}")]
-        public IActionResult GetEntriesOfType(string exerciseType)
+        public ActionResult GetEntriesOfType(string exerciseType)
         {
             try
             {
